@@ -20,7 +20,7 @@ export default function TabLayout() {
           borderTopColor: theme.tabBarBorder,
           borderTopWidth: 1,
           paddingBottom: 8,
-          paddingTop: 8,
+          paddingTop: 0,
           height: 68,
         },
         tabBarActiveTintColor: theme.tabActive,

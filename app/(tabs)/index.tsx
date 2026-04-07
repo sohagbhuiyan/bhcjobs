@@ -11,6 +11,8 @@ import {
   MoonIcon,
   SearchIcon,
 } from "@/components/ui/SvgComponents";
+import { useTheme } from "@/hooks/useTheme";
+import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
   Dimensions,
@@ -54,18 +56,20 @@ const industries: Industry[] = [
 
 const IndustryCard = ({ item }: { item: Industry }) => {
   const [pressed, setPressed] = useState(false);
+  const { theme } = useTheme();
   return (
     <TouchableOpacity
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       activeOpacity={0.85}
-      className="bg-white rounded-2xl p-4 flex-row items-center"
+      className="rounded-2xl p-4 flex-row items-center"
       style={{
         width: (width - 48) / 2,
         marginBottom: 12,
-        shadowColor: "#3B82F6",
+        backgroundColor: theme.card,
+        shadowColor: theme.primary,
         shadowOffset: { width: 0, height: pressed ? 1 : 3 },
-        shadowOpacity: pressed ? 0.08 : 0.12,
+        shadowOpacity: pressed ? 0.04 : 0.12,
         shadowRadius: pressed ? 4 : 10,
         elevation: pressed ? 2 : 5,
         transform: [{ scale: pressed ? 0.97 : 1 }],
@@ -74,12 +78,13 @@ const IndustryCard = ({ item }: { item: Industry }) => {
       <View className="mr-3">{item.icon}</View>
       <View className="flex-1">
         <Text
-          className="text-gray-800 font-semibold text-sm leading-tight"
+          className="font-semibold text-sm leading-tight"
+          style={{ color: theme.text }}
           numberOfLines={2}
         >
           {item.name}
         </Text>
-        <Text className="text-blue-500 text-xs mt-0.5">
+        <Text className="text-xs mt-0.5" style={{ color: theme.primary }}>
           {item.count} Available Jobs
         </Text>
       </View>
@@ -92,6 +97,7 @@ const IndustryCard = ({ item }: { item: Industry }) => {
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const { theme, themeName, setTheme } = useTheme();
 
   const rows: Industry[][] = [];
   for (let i = 0; i < industries.length; i += 2) {
@@ -99,17 +105,23 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView className="flex-1 ">
+    <SafeAreaView
+      className="flex-1 "
+      style={{ backgroundColor: theme.background }}
+    >
+      <StatusBar
+        style={themeName === "dark" ? "light" : "dark"}
+        backgroundColor={theme.background}
+      />
       <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
         bounces={true}
-
       >
         {/* ── Hero Section ── */}
         <View
           style={{
-            backgroundColor: "#3B82F6",
+            backgroundColor: theme.primary,
             paddingBottom: 60,
             borderBottomLeftRadius: 40,
             borderBottomRightRadius: 40,
@@ -144,8 +156,11 @@ export default function Index() {
           <View className="flex-row items-center justify-between px-5 pt-4 pb-2">
             {/* Logo */}
             <View className="flex-row items-center gap-x-1.5">
-              <LogoIcon />
-              <Text className="text-white font-bold text-lg tracking-wide">
+              <LogoIcon color={"white"} />
+              <Text
+                className="font-bold text-lg tracking-wide"
+                style={{ color: "white" }}
+              >
                 BHC<Text className="font-light">JOBS</Text>
               </Text>
             </View>
@@ -154,21 +169,37 @@ export default function Index() {
             <View className="flex-row items-center gap-x-2">
               <TouchableOpacity
                 activeOpacity={0.8}
-                className="border border-white/70 rounded-full px-4 py-1.5"
+                className="rounded-full px-4 py-1.5"
+                style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.7)" }}
               >
-                <Text className="text-white text-sm font-medium">Jobs</Text>
+                <Text
+                  className="text-sm font-medium"
+                  style={{ color: "white" }}
+                >
+                  Jobs
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.8}
-                className="border border-white/70 rounded-full px-4 py-1.5"
+                className="rounded-full px-4 py-1.5"
+                style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.7)" }}
               >
-                <Text className="text-white text-sm font-medium">Sign In</Text>
+                <Text
+                  className="text-sm font-medium"
+                  style={{ color: "white" }}
+                >
+                  Sign In
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.8}
-                className="border border-white/70 rounded-full w-8 h-8 items-center justify-center"
+                className="rounded-full w-8 h-8 items-center justify-center"
+                style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.7)" }}
+                onPress={() =>
+                  setTheme(themeName === "dark" ? "light" : "dark")
+                }
               >
-                <MoonIcon />
+                <MoonIcon color={"white"} />
               </TouchableOpacity>
             </View>
           </View>
@@ -187,11 +218,12 @@ export default function Index() {
           {/* ── Search Bar ── */}
           <View className="mx-5 mt-7">
             <View
-              className="flex-row items-center bg-white rounded-full px-5"
+              className="flex-row items-center rounded-full px-5"
               style={{
-                shadowColor: "#1e40af",
+                backgroundColor: theme.card,
+                shadowColor: theme.primary,
                 shadowOffset: { width: 0, height: 6 },
-                shadowOpacity: 0.25,
+                shadowOpacity: 0.12,
                 shadowRadius: 16,
                 elevation: 8,
               }}
@@ -203,58 +235,62 @@ export default function Index() {
                 onBlur={() => setSearchFocused(false)}
                 placeholder="Search Job"
                 placeholderTextColor="#9CA3AF"
-                className="flex-1 text-gray-700 text-base py-4"
-                style={{ fontFamily: "System" }}
+                className="flex-1 text-base py-4"
+                style={{ color: theme.text, fontFamily: "System" }}
               />
               <TouchableOpacity
                 activeOpacity={0.85}
-                className="w-11 h-11 rounded-full bg-blue-500 items-center justify-center"
-                style={{ marginRight: -4 }}
+                className="w-11 h-11 rounded-full items-center justify-center"
+                style={{ marginRight: -4, backgroundColor: theme.primary }}
               >
-                <SearchIcon />
+                <SearchIcon color={"white"} />
               </TouchableOpacity>
             </View>
           </View>
         </View>
 
         {/* ── Popular Industries ── */}
-        <View className="px-6 pt-8 pb-6">
-          {/* Section Header */}
-          <View className="items-center mb-6">
-            <View
-              className="px-5 py-2 rounded-full"
-              style={{
-                backgroundColor: "#EFF6FF",
-                borderWidth: 1,
-                borderColor: "#BFDBFE",
-              }}
+        <View style={{ backgroundColor: theme.background }}>
+          <View className="px-6 pt-8 pb-6">
+            {/* Section Header */}
+            <View className="items-center mb-6">
+              <View
+                className="px-5 py-2 rounded-full"
+                style={{
+                  backgroundColor: "#EFF6FF",
+                  borderWidth: 1,
+                  borderColor: "#BFDBFE",
+                }}
+              >
+                <Text className="text-gray-800 font-bold text-base">
+                  Popular Industries
+                </Text>
+              </View>
+            </View>
+
+            {/* Industry Grid */}
+            {rows.map((row, rowIdx) => (
+              <View key={rowIdx} className="flex-row justify-between">
+                {row.map((item) => (
+                  <IndustryCard key={item.id} item={item} />
+                ))}
+                {/* If odd item in last row, fill empty space */}
+                {row.length === 1 && (
+                  <View style={{ width: (width - 48) / 2 }} />
+                )}
+              </View>
+            ))}
+
+            {/* Show More Button */}
+            <TouchableOpacity
+              activeOpacity={0.85}
+              className="self-center mt-2 border border-blue-300 rounded-full px-8 py-2.5"
             >
-              <Text className="text-gray-800 font-bold text-base">
-                Popular Industries
+              <Text className="text-blue-500 font-semibold text-sm">
+                Show More
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
-
-          {/* Industry Grid */}
-          {rows.map((row, rowIdx) => (
-            <View key={rowIdx} className="flex-row justify-between">
-              {row.map((item) => (
-                <IndustryCard key={item.id} item={item} />
-              ))}
-              {/* If odd item in last row, fill empty space */}
-              {row.length === 1 && <View style={{ width: (width - 48) / 2 }} />}
-            </View>
-          ))}
-
-          {/* Show More Button */}
-          <TouchableOpacity
-            activeOpacity={0.85}
-            className="self-center mt-2 border border-blue-300 rounded-full px-8 py-2.5"
-          >
-            <Text className="text-blue-500 font-semibold text-sm">
-              Show More
-            </Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

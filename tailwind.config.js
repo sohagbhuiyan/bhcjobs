@@ -9,7 +9,13 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // explicit hex for slate-700 and a half-opacity "darkish" token
+        slate700: "#334155",
+        darkish: "rgba(51,65,85,0.5)",
+      },
+    },
   },
   plugins: [],
 };
