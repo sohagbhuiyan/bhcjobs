@@ -1,50 +1,164 @@
-# Welcome to your Expo app 👋
+# BHC Jobs — React Native (Expo) App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile job portal connecting Bangladeshi workforce with high-demand Saudi jobs. Built with **Expo Router**, **NativeWind**, **TanStack Query**, and **Axios**.
 
-## Get started
+---
 
-1. Install dependencies
+## Tech Stack
 
-   ```bash
-   npm install
-   ```
+| Layer         | Library                            |
+| ------------- | ---------------------------------- |
+| Framework     | Expo SDK 54 + React Native 0.81    |
+| Routing       | Expo Router v6 (file-system based) |
+| Styling       | NativeWind v4 (TailwindCSS for RN) |
+| Data Fetching | @tanstack/react-query v5           |
+| HTTP Client   | Axios                              |
+| Forms         | react-hook-form v7                 |
+| Auth Storage  | expo-secure-store                  |
+| Image         | expo-image                         |
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## Prerequisites
 
-In the output, you'll find options to open the app in a
+- Node.js ≥ 20
+- pnpm ≥ 9
+- Expo Go app (iOS / Android) **or** an emulator/simulator
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Getting Started
 
-## Get a fresh project
-
-When you're ready, run:
+### 1. Clone & Install
 
 ```bash
-npm run reset-project
+git clone <repo-url>
+cd bhcjobs
+pnpm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Environment
 
-## Learn more
+The API base URLs are configured in `constants/api.ts`:
 
-To learn more about developing your project with Expo, look at the following resources:
+```ts
+export const BASE_URL = "https://dev.bhcjobs.com"; // REST API
+export const STORAGE_BASE_URL = "https://api.bhcjobs.com/storage"; // Images
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+No `.env` file is required — update those constants directly if endpoints change.
 
-## Join the community
+### 3. Start Dev Server
 
-Join our community of developers creating universal apps.
+```bash
+pnpm start          # Interactive Expo CLI
+pnpm android        # Android (emulator or device)
+pnpm ios            # iOS simulator (macOS only)
+pnpm web            # Browser
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Scan the QR code with **Expo Go** to run on a physical device.
+
+### 4. Clear Metro Cache (if needed)
+
+```bash
+pnpm expo start -c
+```
+
+---
+
+## Project Structure
+
+```
+bhcjobs/
+├── app/
+│   ├── _layout.tsx              # Root layout (Providers)
+│   ├── index.tsx                # Root redirect → /(tabs)
+│   ├── (auth)/
+│   │   ├── login.tsx
+│   │   └── register.tsx
+│   ├── (tabs)/
+│   │   ├── _layout.tsx          # Tab bar config
+│   │   ├── index.tsx            # Home tab
+│   │   ├── jobs.tsx             # Jobs list tab
+│   │   ├── offer.tsx            # Offers / Featured tab
+│   │   ├── menu.tsx             # Menu tab
+│   │   └── job/
+│   │       └── [slug].tsx       # Job detail page
+│   └── providers/
+│       ├── AuthProvider.tsx
+│       ├── QueryProvider.tsx
+│       └── ThemeProvider.tsx
+├── components/
+│   └── ui/
+│       └── SvgComponents.tsx
+├── constants/
+│   └── api.ts                   # Base URLs, endpoints, image helpers
+├── hooks/
+│   ├── useApiQueries.ts         # useJobs, useIndustries, useCompanies
+│   └── useTheme.ts
+├── lib/
+│   └── axiosInstance.ts
+├── types/
+│   └── api.types.ts
+├── tailwind.config.js
+├── babel.config.js
+├── metro.config.js
+└── tsconfig.json
+```
+
+---
+
+## Key Features
+
+- **Guest access** — app opens to Home tab without requiring login
+- **Job search & filter** — search by title, company, location; filter by industry
+- **Job detail page** — navigates via `/(tabs)/job/[slug]`
+- **Industry browser** — paginated "Load More" cards
+- **Offer/Featured tab** — top-paying jobs + top hiring companies
+- **Auth** — phone + password login, full registration with passport validation
+- **Dark / Light theme** — toggle in the header
+- **Image loading** — smart URL builder handles both relative filenames and full URLs
+
+---
+
+## Image URL Format
+
+```
+https://api.bhcjobs.com/storage/{folder-name}/{filename}
+```
+
+Folder constants (`constants/api.ts`):
+
+```ts
+IMAGE_FOLDERS.INDUSTRY  → "industry-image"
+IMAGE_FOLDERS.JOB       → "job-image"
+IMAGE_FOLDERS.COMPANY   → "company-image"
+```
+
+`getImageUrl(folder, image)` automatically passes through full URLs returned by the API.
+
+---
+
+## Scripts
+
+| Script               | Description                    |
+| -------------------- | ------------------------------ |
+| `pnpm start`         | Start Expo dev server          |
+| `pnpm android`       | Run on Android                 |
+| `pnpm ios`           | Run on iOS                     |
+| `pnpm web`           | Run in browser                 |
+| `pnpm lint`          | Run ESLint via Expo            |
+| `pnpm expo start -c` | Start with cleared Metro cache |
+
+## Type Check
+
+```bash
+pnpm tsc --noEmit
+```
+
+---
+
+## License
+
+Private — BHC Jobs © 2026
