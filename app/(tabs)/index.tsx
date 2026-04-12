@@ -399,19 +399,19 @@ export default function Index() {
 
           {/* Navbar */}
           <View className="flex-row items-center justify-between px-5 pt-4 pb-2">
-            <View className="flex-row items-center space-x-1.5">
+            <View className="flex-row items-center gap-1">
               <LogoIcon color="white" />
               <Text className="text-white font-[700] text-[18px]">
                 BHC<Text style={{ fontWeight: "300" }}>JOBS</Text>
               </Text>
             </View>
-            <View className="flex-row items-center space-x-2">
+            <View className="flex-row items-center gap-1">
               {!isAuthenticated && (
                 <>
                   <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => router.push("/(auth)/login" as any)}
-                    className="rounded-full px-4 py-1 border"
+                    className="rounded-full px-2 py-1 border"
                     style={{ borderColor: "rgba(255,255,255,0.7)" }}
                   >
                     <Text className="text-white text-[12px] font-[600]">
@@ -421,7 +421,7 @@ export default function Index() {
                   <TouchableOpacity
                     activeOpacity={0.8}
                     onPress={() => router.push("/(auth)/register" as any)}
-                    className="rounded-full px-4 py-1"
+                    className="rounded-full px-2 py-1"
                     style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
                   >
                     <Text className="text-white text-[12px] font-[600]">
