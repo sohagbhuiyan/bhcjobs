@@ -14,8 +14,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
+import RenderHtml from "react-native-render-html";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Circle, Path } from "react-native-svg";
 
@@ -181,22 +183,27 @@ const JobCard = ({ job, theme }: { job: Job; theme: any }) => {
           </View>
         )}
       </View>
-
       {displayDescription && (
-        <Text
+        <View
           style={{
-            color: theme.textMuted,
-            fontSize: 12,
             marginTop: 10,
-            lineHeight: 18,
             borderTopWidth: 1,
             borderTopColor: theme.tabBarBorder,
             paddingTop: 10,
           }}
-          numberOfLines={2}
         >
-          {displayDescription}
-        </Text>
+          <RenderHtml
+            contentWidth={width}
+            source={{ html: displayDescription }}
+            tagsStyles={{
+              p: {
+                color: theme.textMuted,
+                fontSize: 12,
+                lineHeight: 18,
+              },
+            }}
+          />
+        </View>
       )}
 
       <TouchableOpacity
@@ -267,6 +274,7 @@ export default function Jobs() {
   const { theme, themeName } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeIndustry, setActiveIndustry] = useState<number | null>(null);
+  const { width } = useWindowDimensions();
 
   const {
     data: jobs = [],
