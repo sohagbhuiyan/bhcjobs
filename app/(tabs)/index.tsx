@@ -164,17 +164,14 @@ const JobRowCard = ({ job: rawJob, theme }: { job: Job; theme: any }) => {
 
       {/* Divider */}
       <View
-        style={{
-          height: 1,
-          backgroundColor: theme.tabBarBorder,
-          marginHorizontal: 16,
-        }}
+        className="h-[1px] mx-4"
+        style={{ backgroundColor: theme.tabBarBorder }}
       />
 
       {/* Salary + Allowance */}
       <View className="px-4 pt-3 pb-2">
         {job.displaySalary && (
-          <View className="flex-row items-center mb-1" style={{ gap: 6 }}>
+          <View className="flex-row items-center mb-1 space-x-1.5">
             <Text style={{ color: theme.textMuted, fontSize: 12 }}>
               Salary:
             </Text>
@@ -186,7 +183,7 @@ const JobRowCard = ({ job: rawJob, theme }: { job: Job; theme: any }) => {
           </View>
         )}
         {job.displayFoodAllowance && (
-          <View className="flex-row items-center mb-1" style={{ gap: 6 }}>
+          <View className="flex-row items-center mb-1 space-x-1.5">
             <Text style={{ color: theme.textMuted, fontSize: 12 }}>
               Food Allowance:
             </Text>
@@ -199,7 +196,7 @@ const JobRowCard = ({ job: rawJob, theme }: { job: Job; theme: any }) => {
         )}
 
         {/* Tags */}
-        <View className="flex-row flex-wrap mt-2" style={{ gap: 6 }}>
+        <View className="flex-row flex-wrap mt-2 space-x-1.5 space-y-1.5">
           {job.displayType && (
             <View
               className="rounded-full px-3 py-1"
@@ -263,7 +260,7 @@ const JobRowCard = ({ job: rawJob, theme }: { job: Job; theme: any }) => {
       </View>
 
       {/* Action Buttons */}
-      <View className="flex-row px-4 pb-4 pt-1" style={{ gap: 10 }}>
+      <View className="flex-row gap-2 px-4 pb-4 pt-1">
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() =>
@@ -304,16 +301,8 @@ const ErrorBanner = ({
   theme: any;
 }) => (
   <View
-    style={{
-      backgroundColor: "#FEF2F2",
-      borderRadius: 12,
-      padding: 14,
-      marginHorizontal: 20,
-      marginVertical: 8,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-    }}
+    className="rounded-xl p-3 mx-5 my-2 flex-row items-center justify-between"
+    style={{ backgroundColor: "#FEF2F2" }}
   >
     <Text style={{ color: "#DC2626", fontSize: 13, flex: 1 }} numberOfLines={2}>
       {message}
@@ -382,13 +371,8 @@ export default function Index() {
       <ScrollView showsVerticalScrollIndicator={false} bounces>
         {/* ── Hero Section ── */}
         <View
-          className="overflow-hidden"
-          style={{
-            backgroundColor: theme.primary,
-            paddingBottom: 60,
-            borderBottomLeftRadius: 40,
-            borderBottomRightRadius: 40,
-          }}
+          className="overflow-hidden pb-[60px] rounded-b-[40px]"
+          style={{ backgroundColor: theme.primary }}
         >
           <View
             style={{
@@ -415,13 +399,13 @@ export default function Index() {
 
           {/* Navbar */}
           <View className="flex-row items-center justify-between px-5 pt-4 pb-2">
-            <View className="flex-row items-center" style={{ gap: 6 }}>
+            <View className="flex-row items-center space-x-1.5">
               <LogoIcon color="white" />
-              <Text style={{ color: "white", fontWeight: "700", fontSize: 18 }}>
+              <Text className="text-white font-[700] text-[18px]">
                 BHC<Text style={{ fontWeight: "300" }}>JOBS</Text>
               </Text>
             </View>
-            <View className="flex-row items-center" style={{ gap: 8 }}>
+            <View className="flex-row items-center space-x-2">
               {!isAuthenticated && (
                 <>
                   <TouchableOpacity
@@ -430,13 +414,7 @@ export default function Index() {
                     className="rounded-full px-4 py-1 border"
                     style={{ borderColor: "rgba(255,255,255,0.7)" }}
                   >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 12,
-                        fontWeight: "600",
-                      }}
-                    >
+                    <Text className="text-white text-[12px] font-[600]">
                       Sign In
                     </Text>
                   </TouchableOpacity>
@@ -446,13 +424,7 @@ export default function Index() {
                     className="rounded-full px-4 py-1"
                     style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
                   >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 12,
-                        fontWeight: "600",
-                      }}
-                    >
+                    <Text className="text-white text-[12px] font-[600]">
                       Register
                     </Text>
                   </TouchableOpacity>
@@ -473,21 +445,10 @@ export default function Index() {
 
           {/* Hero Text */}
           <View className="items-center px-6 pt-7 pb-2">
-            <Text
-              className="text-white text-center"
-              style={{ fontSize: 30, fontWeight: "800", lineHeight: 38 }}
-            >
+            <Text className="text-white text-center text-[30px] font-extrabold leading-[38px]">
               #1 Platform for{"\n"}Saudi Jobs
             </Text>
-            <Text
-              className="text-center mt-3"
-              style={{
-                color: "rgba(255,255,255,0.8)",
-                fontSize: 14,
-                lineHeight: 22,
-                paddingHorizontal: 16,
-              }}
-            >
+            <Text className="text-center mt-3 text-white/80 text-[14px] leading-[22px] px-4">
               Apply for jobs in Saudi Arabia with verified employers.{"\n"}
               We connect Bangladeshi workforce with{"\n"}high-demand Saudi Jobs.
             </Text>
@@ -511,13 +472,13 @@ export default function Index() {
                 onChangeText={setSearchQuery}
                 placeholder="Search jobs, companies…"
                 placeholderTextColor="#9CA3AF"
-                className="flex-1"
-                style={{ paddingVertical: 14, fontSize: 14, color: theme.text }}
+                className="flex-1 py-[14px] text-[14px]"
+                style={{ color: theme.text }}
               />
               <TouchableOpacity
                 activeOpacity={0.85}
                 className="w-10 h-10 rounded-full items-center justify-center"
-                style={{ backgroundColor: theme.primary, marginRight: -4 }}
+                style={{ backgroundColor: theme.primary }}
               >
                 <SearchIcon color="white" />
               </TouchableOpacity>
@@ -545,22 +506,19 @@ export default function Index() {
 
         {/* ── Popular Industries ── */}
         <View style={{ backgroundColor: theme.background }}>
-          <View
-            style={{ paddingHorizontal: 24, paddingTop: 28, paddingBottom: 8 }}
-          >
-            <View style={{ alignItems: "center", marginBottom: 20 }}>
+          <View className="px-6 pt-7 pb-2">
+            <View className="items-center mb-5">
               <View
+                className="rounded-full px-5 py-2"
                 style={{
-                  paddingHorizontal: 20,
-                  paddingVertical: 8,
-                  borderRadius: 99,
                   backgroundColor: theme.primary + "15",
                   borderWidth: 1,
                   borderColor: theme.primary + "40",
                 }}
               >
                 <Text
-                  style={{ color: theme.text, fontWeight: "700", fontSize: 15 }}
+                  className="font-[700] text-[15px]"
+                  style={{ color: theme.text }}
                 >
                   Popular Industries
                 </Text>
@@ -568,33 +526,26 @@ export default function Index() {
             </View>
 
             {industriesLoading ? (
-              <View style={{ alignItems: "center", paddingVertical: 32 }}>
+              <View className="items-center py-8">
                 <ActivityIndicator color={theme.primary} size="large" />
                 <Text
-                  style={{
-                    color: theme.textMuted,
-                    marginTop: 10,
-                    fontSize: 13,
-                  }}
+                  className="mt-2"
+                  style={{ color: theme.textMuted, fontSize: 13 }}
                 >
                   Loading industries…
                 </Text>
               </View>
             ) : industryRows.length === 0 && !industriesError ? (
               <Text
-                style={{
-                  color: theme.textMuted,
-                  textAlign: "center",
-                  paddingVertical: 20,
-                  fontSize: 14,
-                }}
+                className="text-center py-5 text-[14px]"
+                style={{ color: theme.textMuted }}
               >
                 No industries available.
               </Text>
             ) : (
               <>
                 {industryRows.map((row, rowIdx) => (
-                  <View key={rowIdx} style={{ flexDirection: "row" }}>
+                  <View key={rowIdx} className="flex-row">
                     {row.map((item, idx) => (
                       <IndustryCard
                         key={item.id}
@@ -613,14 +564,10 @@ export default function Index() {
                   <TouchableOpacity
                     activeOpacity={0.85}
                     onPress={() => setIndustryDisplayCount((c) => c + 8)}
+                    className="self-center mt-1 rounded-full px-7 py-2.5"
                     style={{
-                      alignSelf: "center",
-                      marginTop: 4,
                       borderWidth: 1,
                       borderColor: theme.primary + "80",
-                      borderRadius: 99,
-                      paddingHorizontal: 28,
-                      paddingVertical: 10,
                     }}
                   >
                     <Text
@@ -640,17 +587,8 @@ export default function Index() {
         </View>
 
         {/* ── Recent Jobs ── */}
-        <View
-          style={{ paddingHorizontal: 20, paddingTop: 8, paddingBottom: 32 }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: 16,
-            }}
-          >
+        <View className="px-5 pt-2 pb-8">
+          <View className="flex-row items-center justify-between mb-4">
             <Text
               style={{ color: theme.text, fontWeight: "700", fontSize: 17 }}
             >
@@ -674,17 +612,13 @@ export default function Index() {
           </View>
 
           {jobsLoading ? (
-            <View style={{ alignItems: "center", paddingVertical: 24 }}>
+            <View className="items-center py-6">
               <ActivityIndicator color={theme.primary} />
             </View>
           ) : filteredJobs.length === 0 ? (
             <Text
-              style={{
-                color: theme.textMuted,
-                textAlign: "center",
-                paddingVertical: 20,
-                fontSize: 14,
-              }}
+              className="text-center py-5 text-[14px]"
+              style={{ color: theme.textMuted }}
             >
               {searchQuery
                 ? "No jobs match your search."
